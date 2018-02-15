@@ -21,16 +21,18 @@
  ******************************************************************************/
 package org.pentaho.hadoop.shim.api.format;
 
+import java.util.List;
+
 public interface IPentahoOrcInputFormat extends IPentahoInputFormat {
   /**
    * Read schema for display to user.
    */
-  SchemaDescription readSchema( ) throws Exception;
+  List<? extends IOrcInputField> readSchema( ) throws Exception;
 
   /**
    * Set schema for file reading.
    */
-  void setSchema( SchemaDescription schema ) throws Exception;
+  void setSchema( List<? extends IOrcInputField> OrcInputField ) throws Exception;
 
   /**
    * Set input file.

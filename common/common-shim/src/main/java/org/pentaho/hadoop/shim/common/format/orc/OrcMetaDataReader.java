@@ -23,11 +23,13 @@ package org.pentaho.hadoop.shim.common.format.orc;
 
 import org.apache.log4j.Logger;
 import org.apache.orc.Reader;
+import org.pentaho.hadoop.shim.api.format.IOrcInputField;
 import org.pentaho.hadoop.shim.api.format.IOrcMetaData;
 import org.pentaho.hadoop.shim.api.format.SchemaDescription;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.util.List;
 
 /**
  * Created by tkafalas on 11/21/2017.
@@ -41,41 +43,41 @@ public class OrcMetaDataReader implements IOrcMetaData.Reader {
   }
 
   @Override
-  public void read( SchemaDescription schemaDescription ) {
-    schemaDescription.forEach( field -> {
+  public void read( List<? extends IOrcInputField> inputFields ) {
+    inputFields.forEach( field -> {
       try {
         readMetaData( field );
       } catch ( Exception e ) {
-        logger.error( "Field " + field.formatFieldName + ": cannot read Orc Metadata" );
+        logger.error( "Field " + field.getFormatFieldName() + ": cannot read Orc Metadata" );
       }
     } );
   }
 
-  private void readMetaData( SchemaDescription.Field field ) {
-    field.pentahoValueMetaType = readInt( field, IOrcMetaData.propertyType.TYPE );
-    field.allowNull = readBoolean( field, IOrcMetaData.propertyType.NULLABLE );
-    field.defaultValue = readValue( field, IOrcMetaData.propertyType.DEFAULT );
+  private void readMetaData( IOrcInputField inputField ) {
+    inputField.setPentahoType( readInt( inputField, IOrcMetaData.propertyType.TYPE ) );
+    //field.allowNull = readBoolean( field, IOrcMetaData.propertyType.NULLABLE );
+    //field.defaultValue = readValue( field, IOrcMetaData.propertyType.DEFAULT );
   }
 
-  private String readValue( SchemaDescription.Field field, IOrcMetaData.propertyType metaField ) {
-    String propertyName = IOrcMetaData.determinePropertyName( field.formatFieldName, metaField.toString() );
+  private String readValue( IOrcInputField inputField, IOrcMetaData.propertyType metaField ) {
+    String propertyName = IOrcMetaData.determinePropertyName( inputField.getFormatFieldName(), metaField.toString() );
     if ( reader.hasMetadataValue( propertyName ) ) {
       ByteBuffer b = reader.getMetadataValue( propertyName );
       return b == null ? null : byteBufferToString( b, Charset.forName( "UTF-8" ) );
     } else {
-      return String.valueOf( field.pentahoValueMetaType );
+      return String.valueOf( inputField.getPentahoType() );
     }
   }
 
-  private int readInt( SchemaDescription.Field field, IOrcMetaData.propertyType metaField ) {
-    String s = readValue( field, metaField );
+  private int readInt( IOrcInputField inputField, IOrcMetaData.propertyType metaField ) {
+    String s = readValue( inputField, metaField );
     if ( s != null ) {
-      return Integer.valueOf( readValue( field, metaField ) );
+      return Integer.valueOf( readValue( inputField, metaField ) );
     }
     return 0;
   }
 
-  private boolean readBoolean( SchemaDescription.Field field, IOrcMetaData.propertyType metaField ) {
+  private boolean readBoolean( IOrcInputField field, IOrcMetaData.propertyType metaField ) {
     String s = readValue( field, metaField );
     if ( s != null ) {
       return Boolean.valueOf( readValue( field, metaField ) );
