@@ -279,7 +279,7 @@
       </modules>
     </profile>
 
-    <profile>
+   <profile>
       <id>shims</id>
       <activation>
         <property>

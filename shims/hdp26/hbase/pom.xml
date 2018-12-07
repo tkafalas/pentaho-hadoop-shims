@@ -12,6 +12,11 @@
   <packaging>bundle</packaging>
   <dependencies>
     <dependency>
+      <groupId>org.pentaho</groupId>
+      <artifactId>pentaho-big-data-api-cluster</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
       <groupId>com.google.protobuf</groupId>
       <artifactId>protobuf-java</artifactId>
       <version>${protobuf-java.version}</version>
