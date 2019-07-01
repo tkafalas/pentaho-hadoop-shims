@@ -34,14 +34,27 @@ public class S3NCredentialUtils {
   private static final String S3NROOTBUCKET = S3NSCHEME + "/";
 
   public static void applyS3CredentialsToHadoopConfigurationIfNecessary( String filename, Configuration conf ) {
+    Boolean useAlt = true;
     Path outputFile = new Path( scrubFilePathIfNecessary( filename ) );
     URI uri = outputFile.toUri();
     String scheme = uri != null ? uri.getScheme() : null;
-    if ( scheme != null && scheme.equals( S3NSCHEME ) ) {
+    if ( !useAlt ) {
       AWSCredentials credentials = DefaultAWSCredentialsProviderChain.getInstance().getCredentials();
       conf.set( "fs.s3n.awsAccessKeyId", credentials.getAWSAccessKeyId() );
       conf.set( "fs.s3n.awsSecretAccessKey", credentials.getAWSSecretKey() );
       conf.set( "fs.s3.buffer.dir", System.getProperty( "java.io.tmpdir" ) );
+    } else {
+      String accessKey = "cjJkMi11c2Vy";
+      String secretKey = "61801b8efc7f0a625de277f71477247c";
+      conf.set( "fs.s3n.awsAccessKeyId", accessKey );
+      conf.set( "fs.s3n.awsSecretAccessKey", secretKey );
+      //conf.set( "fs.s3n.endpoint", "r2d2.hcpdemo.pentaho.net" );
+
+      conf.set( "fs.s3.buffer.dir", System.getProperty( "java.io.tmpdir" ) );
+      conf.set( "fs.s3a.awsAccessKeyId", accessKey );
+      conf.set( "fs.s3a.awsSecretAccessKey", secretKey );
+      //conf.set( "fs.s3a.endpoint", "r2d2.hcpdemo.pentaho.net" );
+      conf.set( "fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem");
     }
   }
 

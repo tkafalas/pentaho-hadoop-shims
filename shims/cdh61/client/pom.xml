@@ -128,6 +128,12 @@
       <artifactId>hadoop-yarn-server-web-proxy</artifactId>
       <version>${org.apache.hadoop.version}</version>
     </dependency>
+    <!-- Added for Parquet with S3 -->
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-aws</artifactId>
+      <version>${org.apache.hadoop.version}</version>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
