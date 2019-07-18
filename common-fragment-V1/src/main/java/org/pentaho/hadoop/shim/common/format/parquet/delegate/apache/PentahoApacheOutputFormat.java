@@ -62,7 +62,7 @@ public class PentahoApacheOutputFormat extends HadoopFormatBase implements IPent
     logger.info( "We are initializing parquet output format" );
 
     inClassloader( () -> {
-      ConfigurationProxy conf = new ConfigurationProxy();
+      ConfigurationProxy conf = new ConfigurationProxy( "1" );
 
       job = Job.getInstance( conf );
 

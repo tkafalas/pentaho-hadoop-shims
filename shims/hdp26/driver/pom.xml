@@ -173,7 +173,6 @@
             <artifactId>pentaho-hadoop-shims-common-fragment-V1</artifactId>
             <version>${project.version}</version>
         </dependency>
-
     </dependencies>
     <build>
         <plugins>
@@ -186,7 +185,7 @@
                     <resolverFilters>
                         <resolverFilter>
                             <include>
-                                *:hadoop-mapreduce-client-core,*:hadoop-yarn-api,*:hadoop-common,*:orc-core,*:avro,
+                                *:hadoop-aws,*:hadoop-mapreduce-client-core,*:hadoop-yarn-api,*:hadoop-common,*:orc-core,*:avro,
                                 *:parquet-hadoop-bundle,*:sqoop,*:oozie-client,*:hive-jdbc,*:hadoop-hdfs,
                                 *:hbase-server,*:hbase-client,*:hbase-common,*:hadoop-yarn-common,*:avro-mapred
                             </include>

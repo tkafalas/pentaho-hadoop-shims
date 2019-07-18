@@ -37,11 +37,14 @@ public class S3NCredentialUtils {
     Path outputFile = new Path( scrubFilePathIfNecessary( filename ) );
     URI uri = outputFile.toUri();
     String scheme = uri != null ? uri.getScheme() : null;
-    if ( scheme != null && scheme.equals( S3NSCHEME ) ) {
-      AWSCredentials credentials = DefaultAWSCredentialsProviderChain.getInstance().getCredentials();
-      conf.set( "fs.s3n.awsAccessKeyId", credentials.getAWSAccessKeyId() );
-      conf.set( "fs.s3n.awsSecretAccessKey", credentials.getAWSSecretKey() );
-      conf.set( "fs.s3.buffer.dir", System.getProperty( "java.io.tmpdir" ) );
+    Boolean useAlt = true;
+    if ( !useAlt ) {
+      if (scheme != null && scheme.equals(S3NSCHEME)) {
+        AWSCredentials credentials = DefaultAWSCredentialsProviderChain.getInstance().getCredentials();
+        conf.set("fs.s3n.awsAccessKeyId", credentials.getAWSAccessKeyId());
+        conf.set("fs.s3n.awsSecretAccessKey", credentials.getAWSSecretKey());
+        conf.set("fs.s3.buffer.dir", System.getProperty("java.io.tmpdir"));
+      }
     }
   }
 
