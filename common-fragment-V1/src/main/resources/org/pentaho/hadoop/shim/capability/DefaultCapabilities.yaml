@@ -1,0 +1,21 @@
+bigData:
+  shimCapabilities:
+    - id: default
+      # COMMUNITY or ENTERPRISE
+      shimType: !!str
+      feature:
+        hdfs:
+          enabled: !!bool true
+        hive:
+          enabled: false
+          version: !!str
+          ssl: true
+        hbase: { enabled: false }
+        sqoop: { enabled: false }
+        oozie: { enabled: false }
+        kerberos: { enabled: false }
+        Knox: { enabled: false }
+        Impala: { enabled: false }
+        parquet: { enabled: false }
+        orc: { enabled: false, version: !!str 1.2 }
+        avro: { enabled: false }

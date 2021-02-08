@@ -1,0 +1,19 @@
+bigData:
+  shimCapabilities:
+    - id: abc12
+      feature:
+        hive:
+          enabled: true
+          version: 1.2
+          ssl: true
+        hbase: { enabled: true }
+        sqoop: { enabled: true }
+        oozie: { enabled: true }
+        kerberos: { enabled: true }
+        Knox: { enabled: true }
+        Impala: { enabled: true }
+        parquet: { enabled: false }
+        orc:
+          enabled: true
+          version: 1.1
+        avro: { enabled: true }
